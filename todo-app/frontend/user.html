@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>My Todos</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<div class="topbar">
+    <div class="brand">Todo<span>List</span></div>
+    <div class="who">
+        <span id="userName"></span>
+        <span class="badge">user</span>
+        <button class="btn-logout" onclick="logout()">Log out</button>
+    </div>
+</div>
+
+<div class="layout">
+    <div class="main">
+        <div class="page-head">
+            <h2>My Todos</h2>
+            <p>Everything you need to get done, in one list.</p>
+        </div>
+
+        <form class="add-form" id="addForm">
+            <div class="fields">
+                <input type="text" id="todoTitle" placeholder="What needs doing?" required>
+                <input type="text" id="todoDescription" placeholder="Add a short note (optional)">
+            </div>
+            <button type="submit">Add Todo</button>
+        </form>
+
+        <div id="statusMsg" class="form-msg"></div>
+
+        <div class="todo-list" id="todoList">
+            <!-- Todos are inserted here by js/user.js -->
+        </div>
+    </div>
+</div>
+
+<script src="js/api.js"></script>
+<script src="js/user.js"></script>
+</body>
+</html>

@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin Dashboard</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<div class="topbar">
+    <div class="brand">Todo<span>List</span></div>
+    <div class="who">
+        <span id="userName"></span>
+        <span class="badge admin-badge">admin</span>
+        <button class="btn-logout" onclick="logout()">Log out</button>
+    </div>
+</div>
+
+<div class="layout main-wide">
+    <div class="sidebar">
+        <div class="stat-row">
+            <div class="stat-box">
+                <div class="num" id="statUsers">0</div>
+                <div class="label">Users</div>
+            </div>
+            <div class="stat-box">
+                <div class="num" id="statTodos">0</div>
+                <div class="label">Total Todos</div>
+            </div>
+        </div>
+
+        <h3>All Users</h3>
+        <div class="user-list" id="userList">
+            <!-- Users inserted by js/admin.js -->
+        </div>
+    </div>
+
+    <div class="admin-main" id="adminMain">
+        <div class="no-selection">Select a user on the left to view their todo list.</div>
+    </div>
+</div>
+
+<script src="js/api.js"></script>
+<script src="js/admin.js"></script>
+</body>
+</html>
