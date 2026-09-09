@@ -56,35 +56,42 @@ A feature-rich, enterprise-ready todo application with role-based access control
 
 ## 🚀 Demo
 
+### Login Page
+<p align="center">
+  <img src="screenshots/login-light.png" alt="Login Page - Light Mode" width="700"/>
+  <br/>
+  <em>Clean, modern login interface with tab navigation</em>
+</p>
+
+<p align="center">
+  <img src="screenshots/login-dark.png" alt="Login Page - Dark Mode" width="700"/>
+  <br/>
+  <em>Beautiful dark mode with optimized color palette</em>
+</p>
+
 ### User Dashboard
 <p align="center">
-  <img src="https://via.placeholder.com/800x450.png?text=User+Dashboard+Screenshot" alt="User Dashboard" width="700"/>
+  <img src="screenshots/user-dashboard.png" alt="User Dashboard" width="700"/>
+  <br/>
+  <em>Intuitive todo management with smooth animations</em>
 </p>
 
 - Add new todos with optional descriptions
-- Toggle completion status
+- Toggle completion status with animated checkboxes
 - Delete unwanted tasks
-- Beautiful animations on every interaction
+- Beautiful hover effects and transitions
 
 ### Admin Dashboard
 <p align="center">
-  <img src="https://via.placeholder.com/800x450.png?text=Admin+Dashboard+Screenshot" alt="Admin Dashboard" width="700"/>
+  <img src="screenshots/admin-dashboard.png" alt="Admin Dashboard" width="700"/>
+  <br/>
+  <em>Comprehensive user oversight and statistics</em>
 </p>
 
 - View all registered users
 - Browse individual user todo lists
 - Real-time statistics
 - Clean, organized interface
-
-### Dark Mode
-<p align="center">
-  <img src="https://via.placeholder.com/800x450.png?text=Dark+Mode+Screenshot" alt="Dark Mode" width="700"/>
-</p>
-
-- One-click theme toggle
-- Persistent preference across sessions
-- Optimized color palette for readability
-- Smooth transitions
 
 ---
 
