@@ -860,7 +860,7 @@ html.dark-mode .btn-primary:hover {
   background: var(--sage-bg);
   color: var(--sage);
 }
-
+/* Set the background color for the main body */
 @media (max-width: 800px) {
   .main-wide {
     flex-direction: column;
