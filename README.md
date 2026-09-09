@@ -355,9 +355,9 @@ This project is open source and available under the [MIT License](LICENSE).
 
 **Ayoub**
 
-- Portfolio: [your-portfolio.com](#)
-- LinkedIn: [linkedin.com/in/yourprofile](#)
-- GitHub: [@yourusername](https://github.com/yourusername)
+- Portfolio: [ayoubcoding111](#)
+- LinkedIn: [www.linkedin.com/in/omar-ayoub-benkreira](#)
+- GitHub: [@ayoubcoding111](https://github.com/yourusername)
 
 ---
 
