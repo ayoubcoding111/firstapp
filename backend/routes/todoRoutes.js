@@ -6,6 +6,7 @@ const {
     createTodo,
     updateTodo,
     toggleTodo,
+    updateTodoStatus,
     deleteTodo
 } = require('../controllers/todoController');
 
@@ -16,6 +17,7 @@ router.get('/', getMyTodos);
 router.post('/', createTodo);
 router.put('/:id', updateTodo);
 router.patch('/:id/toggle', toggleTodo);
+router.patch('/:id/status', updateTodoStatus);  // New endpoint for drag-and-drop
 router.delete('/:id', deleteTodo);
 
 module.exports = router;

@@ -39,7 +39,7 @@ function escapeHtml(str) {
 
 function formatDate(dateString) {
     const d = new Date(dateString);
-    return d.toLocaleDateString(undefined, { month: 'short', day: 'numeric', year: 'numeric' });
+    return d.toLocaleDateString(undefined, { month: 'short', day: 'numeric' });
 }
 
 async function loadUsers() {
@@ -70,7 +70,7 @@ function renderUserList() {
                 <div class="name">${escapeHtml(u.name)}</div>
                 <div class="email">${escapeHtml(u.email)}</div>
             </div>
-            <span class="count">${u.completed_todos || 0}/${u.total_todos || 0}</span>
+            <span class="count">${u.total_todos || 0} tasks</span>
         </button>
     `).join('');
 }
@@ -79,7 +79,7 @@ async function selectUser(id) {
     selectedUserId = Number(id);
     renderUserList();
 
-    adminMainEl.innerHTML = `<div class="no-selection">Loading todos…</div>`;
+    adminMainEl.innerHTML = `<div class="no-selection">Loading tasks…</div>`;
 
     try {
         const data = await apiRequest(`/admin/users/${id}/todos`);
@@ -90,27 +90,70 @@ async function selectUser(id) {
 }
 
 function renderUserTodos(user, todos) {
-    const todosHtml = todos.length === 0
-        ? `<div class="empty-state">This user hasn't added any todos yet.</div>`
-        : todos.map(todo => `
-            <div class="todo-item ${todo.status === 'completed' ? 'completed' : ''}">
-                <div class="todo-body">
-                    <h4>${escapeHtml(todo.title)}</h4>
-                    ${todo.description ? `<p>${escapeHtml(todo.description)}</p>` : ''}
-                    <div class="todo-meta">Created ${formatDate(todo.created_at)}</div>
+    const statuses = ['pending', 'in_progress', 'suspended', 'finished'];
+    const statusLabels = {
+        pending: { icon: '📋', name: 'Pending' },
+        in_progress: { icon: '🚀', name: 'In Progress' },
+        suspended: { icon: '⏸️', name: 'Suspended' },
+        finished: { icon: '✅', name: 'Finished' }
+    };
+
+    // Group todos by status
+    const grouped = {
+        pending: [],
+        in_progress: [],
+        suspended: [],
+        finished: []
+    };
+
+    todos.forEach(todo => {
+        const status = todo.status === 'completed' ? 'finished' : (todo.status || 'pending');
+        if (grouped[status]) {
+            grouped[status].push(todo);
+        } else {
+            grouped.pending.push(todo);
+        }
+    });
+
+    const kanbanColumnsHtml = statuses.map(status => {
+        const statusTodos = grouped[status];
+        const { icon, name } = statusLabels[status];
+
+        const cardsHtml = statusTodos.length === 0
+            ? `<div class="kanban-empty">No tasks</div>`
+            : statusTodos.map(todo => `
+                <div class="kanban-card">
+                    <h4 class="kanban-card-title">${escapeHtml(todo.title)}</h4>
+                    ${todo.description ? `<p class="kanban-card-description">${escapeHtml(todo.description)}</p>` : ''}
+                    <div class="kanban-card-footer">
+                        <span class="kanban-card-meta">${formatDate(todo.created_at)}</span>
+                    </div>
                 </div>
-                <span class="status-pill ${todo.status}">${todo.status}</span>
+            `).join('');
+
+        return `
+            <div class="kanban-column" data-status="${status}">
+                <div class="kanban-header">
+                    <h3><span class="icon">${icon}</span> ${name}</h3>
+                    <span class="kanban-count">${statusTodos.length}</span>
+                </div>
+                <div class="kanban-cards">
+                    ${cardsHtml}
+                </div>
             </div>
-        `).join('');
+        `;
+    }).join('');
 
     adminMainEl.innerHTML = `
         <div class="selected-user-head">
             <div>
-                <h2>${escapeHtml(user.name)}'s Todos</h2>
+                <h2>${escapeHtml(user.name)}'s Tasks</h2>
                 <p>${escapeHtml(user.email)}</p>
             </div>
         </div>
-        <div class="todo-list">${todosHtml}</div>
+        <div class="kanban-board">
+            ${kanbanColumnsHtml}
+        </div>
     `;
 }
 

@@ -24,10 +24,10 @@
 </div>
 
 <div class="layout">
-    <div class="main">
+    <div class="main" style="max-width: 100%; padding: 24px 32px;">
         <div class="page-head">
-            <h2>My Todos</h2>
-            <p>Everything you need to get done, in one list.</p>
+            <h2>My Tasks</h2>
+            <p>Drag and drop tasks between columns to update their status.</p>
         </div>
 
         <form class="add-form" id="addForm">
@@ -35,13 +35,48 @@
                 <input type="text" id="todoTitle" placeholder="What needs doing?" required>
                 <input type="text" id="todoDescription" placeholder="Add a short note (optional)">
             </div>
-            <button type="submit">Add Todo</button>
+            <button type="submit">Add Task</button>
         </form>
 
         <div id="statusMsg" class="form-msg"></div>
 
-        <div class="todo-list" id="todoList">
-            <!-- Todos are inserted here by js/user.js -->
+        <!-- Kanban Board with 4 Columns -->
+        <div class="kanban-board" id="kanbanBoard">
+            <!-- Column 1: Pending -->
+            <div class="kanban-column" data-status="pending">
+                <div class="kanban-header">
+                    <h3><span class="icon">📋</span> Pending</h3>
+                    <span class="kanban-count" id="count-pending">0</span>
+                </div>
+                <div class="kanban-cards" id="cards-pending"></div>
+            </div>
+
+            <!-- Column 2: In Progress -->
+            <div class="kanban-column" data-status="in_progress">
+                <div class="kanban-header">
+                    <h3><span class="icon">🚀</span> In Progress</h3>
+                    <span class="kanban-count" id="count-in_progress">0</span>
+                </div>
+                <div class="kanban-cards" id="cards-in_progress"></div>
+            </div>
+
+            <!-- Column 3: Suspended -->
+            <div class="kanban-column" data-status="suspended">
+                <div class="kanban-header">
+                    <h3><span class="icon">⏸️</span> Suspended</h3>
+                    <span class="kanban-count" id="count-suspended">0</span>
+                </div>
+                <div class="kanban-cards" id="cards-suspended"></div>
+            </div>
+
+            <!-- Column 4: Finished -->
+            <div class="kanban-column" data-status="finished">
+                <div class="kanban-header">
+                    <h3><span class="icon">✅</span> Finished</h3>
+                    <span class="kanban-count" id="count-finished">0</span>
+                </div>
+                <div class="kanban-cards" id="cards-finished"></div>
+            </div>
         </div>
     </div>
 </div>

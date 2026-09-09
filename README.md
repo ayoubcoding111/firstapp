@@ -18,11 +18,20 @@ A feature-rich, enterprise-ready todo application with role-based access control
 
 ## ✨ Features
 
+### 📊 **Kanban Board System**
+- **4-Column Layout** - Pending, In Progress, Suspended, Finished
+- **Drag-and-Drop Interface** - Intuitive HTML5 drag-and-drop API
+- **Real-Time Status Updates** - Changes sync instantly to database
+- **Visual Feedback** - Column highlighting, card animations, task counts
+- **Flexible Workflow** - Move tasks freely between any columns
+- **Color-Coded Statuses** - Each column has its own distinct theme
+
 ### 🎨 **Beautiful Modern UI**
 - **Dark Mode Support** - Seamless theme switching with persistent preference
 - **Smooth Animations** - Professional fade-in, slide, scale, and bounce effects
 - **Responsive Design** - Works perfectly on desktop, tablet, and mobile
 - **Clean Interface** - Minimalist design with thoughtful typography (Fraunces & Inter fonts)
+- **Interactive Transitions** - Hover effects, drag animations, and visual feedback
 
 ### 🔐 **Security & Authentication**
 - **JWT-Based Authentication** - Secure token-based session management
@@ -31,17 +40,17 @@ A feature-rich, enterprise-ready todo application with role-based access control
 - **Protected Routes** - Backend validation for all sensitive operations
 
 ### 👥 **Role Management**
-- **User Dashboard** - Personal todo management with CRUD operations
-- **Admin Dashboard** - Complete oversight of all users and their tasks
-- **Real-Time Stats** - User count and todo metrics
-- **User Browse** - Click any user to view their complete todo list
+- **User Dashboard** - Personal task management with Kanban board
+- **Admin Dashboard** - Complete oversight of all users and their tasks in Kanban view
+- **Real-Time Stats** - User count and task metrics
+- **User Browse** - Click any user to view their complete Kanban board
 
 ### ⚡ **Core Functionality**
-- Create, Read, Update, Delete todos
-- Mark tasks as complete/incomplete
+- Create, Read, Update, Delete tasks
+- Drag tasks between status columns
 - Add optional descriptions to tasks
-- Timestamps for all todos
-- Instant UI updates
+- Timestamps for all tasks
+- Instant UI updates with optimistic rendering
 - Error handling with user-friendly messages
 
 ### 🎯 **Developer Experience**
@@ -73,25 +82,26 @@ A feature-rich, enterprise-ready todo application with role-based access control
 <p align="center">
   <img src="screenshots/user-dashboard.png" alt="User Dashboard" width="700"/>
   <br/>
-  <em>Intuitive todo management with smooth animations</em>
+  <em>Kanban board with drag-and-drop task management</em>
 </p>
 
-- Add new todos with optional descriptions
-- Toggle completion status with animated checkboxes
-- Delete unwanted tasks
-- Beautiful hover effects and transitions
+- **Drag and drop** tasks between 4 status columns
+- Add new tasks with optional descriptions
+- Visual column indicators and task counts
+- Delete tasks directly from cards
+- Smooth animations on every interaction
 
 ### Admin Dashboard
 <p align="center">
   <img src="screenshots/admin-dashboard.png" alt="Admin Dashboard" width="700"/>
   <br/>
-  <em>Comprehensive user oversight and statistics</em>
+  <em>Comprehensive user oversight with Kanban view</em>
 </p>
 
 - View all registered users
-- Browse individual user todo lists
-- Real-time statistics
-- Clean, organized interface
+- Browse individual user task boards in Kanban format
+- Real-time statistics (user count, total tasks)
+- Clean, organized interface with status breakdown
 
 ---
 
@@ -140,6 +150,11 @@ cd todo-app
 ```bash
 mysql -u root -p < backend/schema.sql
 ```
+
+> **Note:** If you're updating from an older version without Kanban support, run the migration:
+> ```bash
+> mysql -u root -p < backend/migrate-to-kanban.sql
+> ```
 
 3. **Configure environment variables**
 ```bash
@@ -221,12 +236,15 @@ POST /api/auth/login
 
 #### Todos (Authenticated)
 ```http
-GET    /api/todos              # Get my todos
-POST   /api/todos              # Create todo
-PUT    /api/todos/:id          # Update todo
-PATCH  /api/todos/:id/toggle   # Toggle completion
-DELETE /api/todos/:id          # Delete todo
+GET    /api/todos                # Get my todos
+POST   /api/todos                # Create todo
+PUT    /api/todos/:id            # Update todo title/description
+PATCH  /api/todos/:id/status     # Update status (drag-and-drop)
+PATCH  /api/todos/:id/toggle     # Toggle completion (legacy)
+DELETE /api/todos/:id            # Delete todo
 ```
+
+**Status values**: `pending`, `in_progress`, `suspended`, `finished`
 
 #### Admin (Admin Only)
 ```http
@@ -257,6 +275,14 @@ JWT_SECRET=your_long_random_secret_key_here
 
 ## 🎨 Key Features Explained
 
+### Kanban Board System
+- **HTML5 Drag-and-Drop API** - Native browser drag-and-drop with visual feedback
+- **4 Status Columns** - Pending → In Progress → Suspended → Finished
+- **Optimistic UI Updates** - Instant visual feedback before server confirmation
+- **Real-time Database Sync** - Status changes persist immediately to MySQL
+- **Flexible Workflow** - Move tasks between any columns without restrictions
+- **Color-Coded Columns** - Each status has its own distinct visual theme
+
 ### Dark Mode Implementation
 - CSS custom properties for theme colors
 - JavaScript toggle with localStorage persistence
@@ -267,6 +293,7 @@ JWT_SECRET=your_long_random_secret_key_here
 - Keyframe animations: fadeIn, slideInLeft, slideInRight, scaleIn, pulse, bounce
 - Staggered delays for sequential animations
 - Hover effects with transform and shadow
+- Drag-and-drop animations with visual feedback
 - Active states for user feedback
 
 ### Security Measures
@@ -331,17 +358,21 @@ JWT_SECRET=your_long_random_secret_key_here
 
 Potential features to extend this project:
 
+- [x] **Kanban Board** - Drag-and-drop task management ✅ IMPLEMENTED
+- [x] **4 Status Columns** - Pending, In Progress, Suspended, Finished ✅ IMPLEMENTED
 - [ ] Due dates and priorities
-- [ ] Categories/tags for todos
+- [ ] Categories/tags for tasks
 - [ ] Search and filter functionality
 - [ ] Email notifications
-- [ ] Todo sharing between users
-- [ ] Drag-and-drop reordering
+- [ ] Task sharing between users
+- [ ] Subtasks and checklists
 - [ ] Export to PDF/CSV
 - [ ] Two-factor authentication
 - [ ] Password reset flow
 - [ ] Real-time collaboration (Socket.io)
 - [ ] Mobile app (React Native)
+- [ ] Task comments and attachments
+- [ ] Activity history and audit logs
 
 ---
 

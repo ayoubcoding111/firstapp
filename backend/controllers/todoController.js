@@ -59,7 +59,34 @@ async function updateTodo(req, res) {
     }
 }
 
-// PATCH /api/todos/:id/toggle - flip a todo between pending/completed
+// PATCH /api/todos/:id/status - update a todo's status (for drag-and-drop)
+async function updateTodoStatus(req, res) {
+    try {
+        const { id } = req.params;
+        const { status } = req.body;
+
+        // Validate status
+        const validStatuses = ['pending', 'in_progress', 'suspended', 'finished'];
+        if (!status || !validStatuses.includes(status)) {
+            return res.status(400).json({ message: 'Invalid status. Must be one of: pending, in_progress, suspended, finished' });
+        }
+
+        const [existing] = await db.query('SELECT * FROM todos WHERE id = ? AND user_id = ?', [id, req.user.id]);
+        if (existing.length === 0) {
+            return res.status(404).json({ message: 'Todo not found.' });
+        }
+
+        await db.query('UPDATE todos SET status = ? WHERE id = ?', [status, id]);
+
+        const [rows] = await db.query('SELECT * FROM todos WHERE id = ?', [id]);
+        res.json(rows[0]);
+    } catch (err) {
+        console.error('Update todo status error:', err);
+        res.status(500).json({ message: 'Server error while updating todo status.' });
+    }
+}
+
+// PATCH /api/todos/:id/toggle - flip a todo between pending/completed (legacy - kept for backward compatibility)
 async function toggleTodo(req, res) {
     try {
         const { id } = req.params;
@@ -68,7 +95,7 @@ async function toggleTodo(req, res) {
             return res.status(404).json({ message: 'Todo not found.' });
         }
 
-        const newStatus = existing[0].status === 'pending' ? 'completed' : 'pending';
+        const newStatus = existing[0].status === 'finished' ? 'pending' : 'finished';
         await db.query('UPDATE todos SET status = ? WHERE id = ?', [newStatus, id]);
 
         const [rows] = await db.query('SELECT * FROM todos WHERE id = ?', [id]);
@@ -96,4 +123,4 @@ async function deleteTodo(req, res) {
     }
 }
 
-module.exports = { getMyTodos, createTodo, updateTodo, toggleTodo, deleteTodo };
+module.exports = { getMyTodos, createTodo, updateTodo, toggleTodo, updateTodoStatus, deleteTodo };
