@@ -248,6 +248,14 @@ html.dark-mode .badge.admin-badge {
     justify-content: center;
     padding: 24px;
     animation: fadeIn 0.5s ease-out;
+    position: relative;
+}
+
+.auth-theme-toggle {
+    position: absolute;
+    top: 24px;
+    right: 24px;
+    z-index: 10;
 }
 
 .auth-card {
@@ -380,24 +388,37 @@ html.dark-mode .badge.admin-badge {
     transform: translateY(0);
 }
 
+html.dark-mode .btn-primary {
+    background: var(--amber);
+    color: var(--ink);
+}
+
+html.dark-mode .btn-primary:hover {
+    background: var(--amber-dark);
+    color: var(--ink);
+}
+
 .form-msg {
     margin-top: 14px;
     font-size: 13px;
     padding: 10px 12px;
     border-radius: var(--radius);
     display: none;
+    transition: all 0.3s ease;
 }
 
 .form-msg.error {
     display: block;
     background: var(--red-bg);
     color: var(--red);
+    animation: slideInRight 0.3s ease-out;
 }
 
 .form-msg.success {
     display: block;
     background: var(--sage-bg);
     color: var(--sage);
+    animation: slideInRight 0.3s ease-out;
 }
 
 .hint {
@@ -433,6 +454,7 @@ html.dark-mode .badge.admin-badge {
 /* ---------- User dashboard ---------- */
 .page-head {
     margin-bottom: 22px;
+    animation: fadeIn 0.4s ease-out;
 }
 
 .page-head h2 {
@@ -453,6 +475,15 @@ html.dark-mode .badge.admin-badge {
     border: 1px solid var(--line);
     border-radius: var(--radius);
     padding: 14px;
+    box-shadow: var(--shadow-sm);
+    transition: all 0.3s ease;
+    animation: scaleIn 0.4s ease-out;
+    animation-delay: 0.1s;
+    animation-fill-mode: both;
+}
+
+.add-form:hover {
+    box-shadow: var(--shadow-md);
 }
 
 .add-form .fields {
@@ -469,11 +500,15 @@ html.dark-mode .badge.admin-badge {
     font-family: inherit;
     font-size: 14px;
     background: var(--paper);
+    color: var(--ink);
+    transition: all 0.2s ease;
 }
 
 .add-form input:focus {
     outline: none;
     border-color: var(--amber);
+    transform: scale(1.01);
+    box-shadow: 0 0 0 3px rgba(201, 123, 46, 0.1);
 }
 
 .add-form button {
@@ -486,10 +521,18 @@ html.dark-mode .badge.admin-badge {
     font-weight: 600;
     font-size: 14px;
     white-space: nowrap;
+    transition: all 0.2s ease;
+    cursor: pointer;
 }
 
 .add-form button:hover {
     background: var(--amber-dark);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+}
+
+.add-form button:active {
+    transform: translateY(0);
 }
 
 .todo-list {
@@ -713,6 +756,7 @@ html.dark-mode .badge.admin-badge {
 .user-row .name {
     font-size: 14px;
     font-weight: 600;
+    color: var(--ink);
 }
 
 .user-row .email {
