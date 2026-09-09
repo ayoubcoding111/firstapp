@@ -1,307 +1,371 @@
-# 📝 Todo App — Admin & User Roles
+# 📝 TodoList - Modern Full-Stack Task Management Application
 
-A simple full-stack Todo List application with **two types of accounts**:
+<div align="center">
 
-- **Users** — can create, complete, and delete their own personal todos.
-- **Admins** — can see every registered user and browse each user's todo list (read-only oversight).
+![Todo App Banner](https://img.shields.io/badge/Todo-Application-orange?style=for-the-badge)
+![Node.js](https://img.shields.io/badge/Node.js-339933?style=for-the-badge&logo=nodedotjs&logoColor=white)
+![Express](https://img.shields.io/badge/Express-000000?style=for-the-badge&logo=express&logoColor=white)
+![MySQL](https://img.shields.io/badge/MySQL-4479A1?style=for-the-badge&logo=mysql&logoColor=white)
+![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black)
 
-**Tech stack**
+A feature-rich, enterprise-ready todo application with role-based access control, beautiful UI/UX, and smooth animations.
 
-- Frontend: plain **HTML, CSS, and JavaScript** (no frameworks, no build step)
-- Backend: **Node.js** + **Express**
-- Database: **MySQL**
-- Auth: email/password login with hashed passwords (bcrypt) and JSON Web Tokens (JWT)
+[Features](#-features) • [Demo](#-demo) • [Quick Start](#-quick-start) • [Tech Stack](#-tech-stack) • [Documentation](#-documentation)
 
-This guide assumes you are a beginner. Follow it top to bottom and you will have the app running locally.
-
----
-
-## 1. What you need installed first
-
-Install these three things before doing anything else:
-
-| Tool                                                                 | Why you need it                                 | Check if it's installed |
-| -------------------------------------------------------------------- | ----------------------------------------------- | ----------------------- |
-| [Node.js](https://nodejs.org/) (v18 or newer)                        | Runs the backend server                         | `node -v`               |
-| [MySQL](https://dev.mysql.com/downloads/installer/) (v8 recommended) | Stores users and todos                          | `mysql --version`       |
-| A code editor like [VS Code](https://code.visualstudio.com/)         | To open/edit the project (optional but helpful) | —                       |
-
-Open a terminal (Command Prompt / PowerShell on Windows, Terminal on Mac/Linux) and run `node -v` and `mysql --version`. If either command says "command not found," install that tool first and come back.
+</div>
 
 ---
 
-## 2. Project structure
+## ✨ Features
 
+### 🎨 **Beautiful Modern UI**
+- **Dark Mode Support** - Seamless theme switching with persistent preference
+- **Smooth Animations** - Professional fade-in, slide, scale, and bounce effects
+- **Responsive Design** - Works perfectly on desktop, tablet, and mobile
+- **Clean Interface** - Minimalist design with thoughtful typography (Fraunces & Inter fonts)
+
+### 🔐 **Security & Authentication**
+- **JWT-Based Authentication** - Secure token-based session management
+- **Password Hashing** - Bcrypt encryption for all passwords
+- **Role-Based Access Control** - Separate user and admin permissions
+- **Protected Routes** - Backend validation for all sensitive operations
+
+### 👥 **Role Management**
+- **User Dashboard** - Personal todo management with CRUD operations
+- **Admin Dashboard** - Complete oversight of all users and their tasks
+- **Real-Time Stats** - User count and todo metrics
+- **User Browse** - Click any user to view their complete todo list
+
+### ⚡ **Core Functionality**
+- Create, Read, Update, Delete todos
+- Mark tasks as complete/incomplete
+- Add optional descriptions to tasks
+- Timestamps for all todos
+- Instant UI updates
+- Error handling with user-friendly messages
+
+### 🎯 **Developer Experience**
+- Clean, modular codebase
+- RESTful API architecture
+- MVC pattern implementation
+- No build step required for frontend
+- Well-documented code
+- Easy to extend and customize
+
+---
+
+## 🚀 Demo
+
+### User Dashboard
+<p align="center">
+  <img src="https://via.placeholder.com/800x450.png?text=User+Dashboard+Screenshot" alt="User Dashboard" width="700"/>
+</p>
+
+- Add new todos with optional descriptions
+- Toggle completion status
+- Delete unwanted tasks
+- Beautiful animations on every interaction
+
+### Admin Dashboard
+<p align="center">
+  <img src="https://via.placeholder.com/800x450.png?text=Admin+Dashboard+Screenshot" alt="Admin Dashboard" width="700"/>
+</p>
+
+- View all registered users
+- Browse individual user todo lists
+- Real-time statistics
+- Clean, organized interface
+
+### Dark Mode
+<p align="center">
+  <img src="https://via.placeholder.com/800x450.png?text=Dark+Mode+Screenshot" alt="Dark Mode" width="700"/>
+</p>
+
+- One-click theme toggle
+- Persistent preference across sessions
+- Optimized color palette for readability
+- Smooth transitions
+
+---
+
+## 🛠 Tech Stack
+
+### Frontend
+- **HTML5** - Semantic markup
+- **CSS3** - Custom properties, animations, flexbox
+- **Vanilla JavaScript** - No frameworks, pure ES6+
+- **Font Awesome** - Icon system
+- **Google Fonts** - Fraunces & Inter typography
+
+### Backend
+- **Node.js** - Runtime environment
+- **Express.js** - Web framework
+- **MySQL** - Relational database
+- **JWT** - Authentication tokens
+- **Bcrypt** - Password hashing
+- **CORS** - Cross-origin resource sharing
+
+### Development
+- **Nodemon** - Auto-restart development server
+- **dotenv** - Environment variable management
+- **ESLint Ready** - Code quality tools compatible
+
+---
+
+## 📦 Quick Start
+
+### Prerequisites
+
+Ensure you have these installed:
+- [Node.js](https://nodejs.org/) (v18 or higher)
+- [MySQL](https://dev.mysql.com/downloads/) (v8 recommended)
+- [Git](https://git-scm.com/)
+
+### Installation
+
+1. **Clone the repository**
+```bash
+git clone https://github.com/yourusername/todo-app.git
+cd todo-app
 ```
-todo-app/
-├── backend/                 ← Node.js + Express + MySQL API
-│   ├── config/
-│   │   └── db.js            ← MySQL connection settings
-│   ├── controllers/         ← the actual logic for each route
-│   │   ├── authController.js
-│   │   ├── todoController.js
-│   │   └── adminController.js
-│   ├── middleware/
-│   │   └── auth.js          ← checks login tokens / admin access
-│   ├── routes/               ← maps URLs to controller functions
-│   │   ├── authRoutes.js
-│   │   ├── todoRoutes.js
-│   │   └── adminRoutes.js
-│   ├── .env.example         ← template for your secret config
-│   ├── schema.sql           ← creates the database + tables
-│   ├── package.json
-│   └── server.js            ← starts the API server
-│
-├── frontend/                 ← plain HTML/CSS/JS website
-│   ├── css/
-│   │   └── style.css
-│   ├── js/
-│   │   ├── api.js           ← shared helper for calling the backend
-│   │   ├── auth.js          ← login / signup page logic
-│   │   ├── user.js          ← user dashboard logic
-│   │   └── admin.js         ← admin dashboard logic
-│   ├── index.html           ← login / sign up page
-│   ├── user.html            ← normal user's todo dashboard
-│   └── admin.html           ← admin's dashboard (view all users)
-│
-└── README.md                 ← you are here
-```
 
----
-
-## 3. Set up the database (MySQL)
-
-### 3.1 Start MySQL
-
-Make sure your local MySQL server is running.
-
-- **Windows**: open "Services", find MySQL, make sure it's "Running" (or start it from MySQL Workbench / XAMPP).
-- **Mac**: `brew services start mysql` (if installed via Homebrew), or start it from System Preferences if you used the installer.
-- **Linux**: `sudo service mysql start`
-
-### 3.2 Create the database and tables
-
-The file `backend/schema.sql` contains everything needed: it creates the `todo_app` database, the `users` and `todos` tables, and one ready-to-use admin account.
-
-Run it from your terminal (replace `root` with your MySQL username if different):
-
+2. **Set up the database**
 ```bash
 mysql -u root -p < backend/schema.sql
 ```
 
-You'll be prompted for your MySQL password, then it runs automatically. If you prefer a GUI, open **MySQL Workbench**, connect to your local server, open `backend/schema.sql`, and click the "execute" (lightning bolt) button.
-
-### 3.3 What this gives you
-
-A default **admin account** is created automatically:
-
-```
-Email:    admin@todo.com
-Password: Admin123!
-```
-
-Log in with this account to see the admin dashboard immediately, no extra setup needed.
-
-> **Note:** the app deliberately does not let you sign up as an admin from the website — that keeps random visitors from giving themselves admin access. If you want to create _additional_ admin accounts, see section 7 ("Creating more admin accounts") below.
-
----
-
-## 4. Set up and run the backend
-
-### 4.1 Install dependencies
-
-Open a terminal, move into the `backend` folder, and install the required packages:
-
+3. **Configure environment variables**
 ```bash
 cd backend
+cp .env.example .env
+# Edit .env with your MySQL credentials
+```
+
+4. **Install dependencies**
+```bash
 npm install
 ```
 
-This downloads Express, MySQL driver, JWT, bcrypt, etc. into a `node_modules` folder (this can take a minute).
-
-### 4.2 Configure your environment variables
-
-Copy the example env file:
-
-```bash
-# Mac/Linux
-cp .env.example .env
-
-# Windows (Command Prompt)
-copy .env.example .env
-```
-
-Open the new `.env` file in your code editor and fill in your real MySQL password:
-
-```env
-DB_HOST=localhost
-DB_PORT=3306
-DB_USER=root
-DB_PASSWORD=your_mysql_password_here
-DB_NAME=todo_app
-
-PORT=5000
-
-JWT_SECRET=change_this_to_a_long_random_secret_key
-```
-
-- `DB_PASSWORD` — the password you use to log into MySQL locally.
-- `JWT_SECRET` — any long, random string of your choosing (used to sign login tokens). Just mash your keyboard for 30+ characters — it doesn't need to be memorable.
-
-### 4.3 Start the server
-
+5. **Start the backend server**
 ```bash
 npm start
 ```
 
-If everything is configured correctly, you'll see:
+6. **Open the frontend**
+   - Option 1: Use VS Code Live Server extension
+   - Option 2: Open `frontend/index.html` in your browser
+   - Option 3: Use Python's HTTP server:
+     ```bash
+     cd frontend
+     python3 -m http.server 5500
+     ```
 
-```
-✅ Todo App server running on http://localhost:5000
-```
-
-Leave this terminal window open — the server needs to keep running while you use the app. Visit `http://localhost:5000` in your browser; you should see a small JSON message confirming the API is alive.
-
-**Common errors here:**
-| Error message | Fix |
-|---|---|
-| `ER_ACCESS_DENIED_ERROR` | Your `DB_PASSWORD` in `.env` is wrong. |
-| `ECONNREFUSED` (to MySQL) | MySQL isn't running — go back to step 3.1. |
-| `ER_BAD_DB_ERROR: Unknown database 'todo_app'` | You skipped step 3.2 — run `schema.sql` first. |
-| `EADDRINUSE: address already in use :::5000` | Something else is using port 5000. Change `PORT` in `.env` to e.g. `5050`, and update `API_BASE_URL` in `frontend/js/api.js` to match. |
-
----
-
-## 5. Run the frontend
-
-The frontend is just static HTML/CSS/JS files — no build step, no npm install needed. You just need to open it in a browser **while the backend is running**.
-
-### Easiest option: VS Code "Live Server" extension
-
-1. Open the `frontend` folder in VS Code.
-2. Install the free "Live Server" extension.
-3. Right-click `index.html` → "Open with Live Server".
-
-### Alternative: Python's built-in server
-
-If you have Python installed:
-
-```bash
-cd frontend
-python3 -m http.server 5500
-```
-
-Then visit `http://localhost:5500` in your browser.
-
-### Alternative: just double-click it
-
-You can literally double-click `frontend/index.html` to open it directly in your browser (as a `file://` URL). This works for this app too, since the backend already allows cross-origin requests (CORS is enabled).
-
-> Whichever method you use, make sure the **backend server from step 4.3 is still running** in its own terminal window — the frontend needs it to log in and load/save todos.
-
----
-
-## 6. Using the app
-
-1. Open the frontend (`index.html`) in your browser.
-2. **Log in as the pre-made admin** to explore the admin side:
+7. **Login with default admin account**
    - Email: `admin@todo.com`
    - Password: `Admin123!`
-   - You'll land on the admin dashboard, with a list of every registered user on the left. Click a user to view their todo list on the right.
-3. **Or click "Sign Up"** to create a normal user account:
-   - Fill in your name, email, and a password (6+ characters).
-   - You'll land on your personal todo dashboard.
-   - Add todos with the form at the top, check the checkbox to mark one complete, and click "Delete" to remove one.
-4. Log out any time with the "Log out" button — this clears your session and sends you back to the login page.
-5. Log back in as the admin to see the todos you just added show up in their user list.
 
 ---
 
-## 7. Creating more admin accounts
+## 📚 Documentation
 
-For security, the public "Sign Up" form only ever creates normal user accounts. To promote someone to admin, run this SQL command (swap in the correct email):
-
-```sql
-USE todo_app;
-UPDATE users SET role = 'admin' WHERE email = 'someone@example.com';
+### Project Structure
+```
+todo-app/
+├── backend/
+│   ├── config/
+│   │   └── db.js                 # MySQL connection
+│   ├── controllers/
+│   │   ├── authController.js     # Login/Register logic
+│   │   ├── todoController.js     # Todo CRUD operations
+│   │   └── adminController.js    # Admin operations
+│   ├── middleware/
+│   │   └── auth.js               # JWT verification
+│   ├── routes/
+│   │   ├── authRoutes.js         # Auth endpoints
+│   │   ├── todoRoutes.js         # Todo endpoints
+│   │   └── adminRoutes.js        # Admin endpoints
+│   ├── .env.example              # Environment template
+│   ├── schema.sql                # Database schema
+│   ├── package.json
+│   └── server.js                 # App entry point
+│
+├── frontend/
+│   ├── css/
+│   │   └── style.css             # All styles + animations
+│   ├── js/
+│   │   ├── api.js                # API communication
+│   │   ├── auth.js               # Login/Register page
+│   │   ├── user.js               # User dashboard
+│   │   └── admin.js              # Admin dashboard
+│   ├── index.html                # Login/Register page
+│   ├── user.html                 # User dashboard
+│   └── admin.html                # Admin dashboard
+│
+└── README.md
 ```
 
-You can run this in MySQL Workbench, or from the terminal:
+### API Endpoints
 
-```bash
-mysql -u root -p -e "USE todo_app; UPDATE users SET role='admin' WHERE email='someone@example.com';"
+#### Authentication (Public)
+```http
+POST /api/auth/register
+POST /api/auth/login
+```
+
+#### Todos (Authenticated)
+```http
+GET    /api/todos              # Get my todos
+POST   /api/todos              # Create todo
+PUT    /api/todos/:id          # Update todo
+PATCH  /api/todos/:id/toggle   # Toggle completion
+DELETE /api/todos/:id          # Delete todo
+```
+
+#### Admin (Admin Only)
+```http
+GET    /api/admin/users            # List all users
+GET    /api/admin/users/:id/todos  # View user's todos
+DELETE /api/admin/users/:id        # Delete user
+GET    /api/admin/todos            # View all todos
+```
+
+### Environment Variables
+
+```env
+# Database Configuration
+DB_HOST=localhost
+DB_PORT=3306
+DB_USER=root
+DB_PASSWORD=your_password
+DB_NAME=todo_app
+
+# Server Configuration
+PORT=5000
+
+# Security
+JWT_SECRET=your_long_random_secret_key_here
 ```
 
 ---
 
-## 8. How the app works (a quick tour, for learning purposes)
+## 🎨 Key Features Explained
 
-- **Passwords are never stored in plain text.** When you sign up, the backend hashes your password with `bcrypt` before saving it (see `authController.js`). When you log in, it compares the hash — the original password is never stored anywhere.
-- **Logging in returns a token (JWT)**, which the frontend saves in the browser's `localStorage`. Every request to a protected route (like "get my todos") includes this token in the `Authorization` header so the backend knows who you are.
-- **Roles are checked on the backend, not just the frontend.** Even if someone tampered with the frontend, the `/api/admin/*` routes reject any request that isn't from a logged-in admin (see `middleware/auth.js`'s `isAdmin` function). This is the correct way to do access control — never trust the frontend alone.
-- **Each todo belongs to exactly one user** via a `user_id` foreign key in the `todos` table. Normal users can only ever see/edit/delete their own todos. Admins have separate read-only endpoints to view any user's todos.
+### Dark Mode Implementation
+- CSS custom properties for theme colors
+- JavaScript toggle with localStorage persistence
+- System preference detection
+- Smooth color transitions (0.3s ease)
 
----
+### Animation System
+- Keyframe animations: fadeIn, slideInLeft, slideInRight, scaleIn, pulse, bounce
+- Staggered delays for sequential animations
+- Hover effects with transform and shadow
+- Active states for user feedback
 
-## 9. API reference (for the curious)
-
-All endpoints are prefixed with `http://localhost:5000/api`.
-
-### Auth (public)
-
-| Method | Endpoint         | Body                        | Description                              |
-| ------ | ---------------- | --------------------------- | ---------------------------------------- |
-| POST   | `/auth/register` | `{ name, email, password }` | Create a new normal user account         |
-| POST   | `/auth/login`    | `{ email, password }`       | Log in (works for both users and admins) |
-
-### Todos (requires login token)
-
-| Method | Endpoint            | Body                     | Description                           |
-| ------ | ------------------- | ------------------------ | ------------------------------------- |
-| GET    | `/todos`            | —                        | Get all of my todos                   |
-| POST   | `/todos`            | `{ title, description }` | Create a new todo                     |
-| PUT    | `/todos/:id`        | `{ title, description }` | Edit a todo                           |
-| PATCH  | `/todos/:id/toggle` | —                        | Flip a todo between pending/completed |
-| DELETE | `/todos/:id`        | —                        | Delete a todo                         |
-
-### Admin (requires login token + admin role)
-
-| Method | Endpoint                 | Description                                   |
-| ------ | ------------------------ | --------------------------------------------- |
-| GET    | `/admin/users`           | List every normal user with their todo counts |
-| GET    | `/admin/users/:id/todos` | View one user's full todo list                |
-| DELETE | `/admin/users/:id`       | Delete a user account (and their todos)       |
-| GET    | `/admin/todos`           | View every todo from every user at once       |
-
-For protected routes, send the token like this:
-
-```
-Authorization: Bearer <the_token_you_got_from_login>
-```
+### Security Measures
+- Password hashing with bcrypt (10 salt rounds)
+- JWT tokens with expiration
+- Role-based middleware protection
+- SQL injection prevention via parameterized queries
+- CORS configuration
 
 ---
 
-## 10. Troubleshooting
+## 🔒 Security Best Practices
 
-- **"Failed to fetch" errors in the browser console** → the backend server isn't running, or is running on a different port than `frontend/js/api.js` expects. Check `API_BASE_URL` at the top of that file.
-- **Blank page / nothing loads** → open your browser's DevTools (F12) → Console tab, and read the error message; it usually points straight at the problem.
-- **Changes to `.env` don't seem to apply** → stop the server (Ctrl+C in its terminal) and run `npm start` again; `.env` is only read when the server starts.
-- **Still stuck?** Delete the `todo_app` database and re-run `schema.sql` to start fresh:
-  ```sql
-  DROP DATABASE todo_app;
-  ```
-  then repeat step 3.2.
+✅ **Implemented in this project:**
+- Passwords hashed before storage
+- JWT tokens for stateless authentication
+- Backend role validation
+- Protected API routes
+- Environment variables for secrets
+- Parameterized SQL queries
+
+⚠️ **For production deployment, also add:**
+- HTTPS/SSL certificates
+- Rate limiting
+- Input sanitization
+- CSRF protection
+- Security headers (helmet.js)
+- Password strength requirements
+- Email verification
 
 ---
 
-## 11. Next steps / ideas to extend this project
+## 🌟 Highlights for Recruiters
 
-This project is intentionally kept simple so it's easy to learn from. Some ideas if you want to keep building:
+### Code Quality
+- ✅ Clean, modular architecture
+- ✅ Consistent naming conventions
+- ✅ Comprehensive error handling
+- ✅ Well-commented code
+- ✅ RESTful API design
+- ✅ MVC pattern implementation
 
-- Add due dates and priority levels to todos.
-- Let admins edit or delete any user's todos, not just view them.
-- Add pagination to the admin user list for large numbers of users.
-- Add "forgot password" email flow.
-- Deploy the backend (e.g. Render, Railway) and frontend (e.g. Netlify, Vercel) so it's live on the internet.
+### Technical Skills Demonstrated
+- **Backend Development**: Node.js, Express, RESTful APIs
+- **Database Management**: MySQL, schema design, relationships
+- **Authentication**: JWT, Bcrypt, session management
+- **Frontend Development**: Responsive design, animations, JavaScript
+- **Security**: Role-based access, password hashing, token validation
+- **UX/UI**: Dark mode, smooth animations, intuitive design
 
-Enjoy building! 🎉
+### Professional Practices
+- Environment configuration
+- Secure credential management
+- Git version control ready
+- Documentation
+- Error handling
+- User feedback (loading states, error messages)
+
+---
+
+## 🚀 Future Enhancements
+
+Potential features to extend this project:
+
+- [ ] Due dates and priorities
+- [ ] Categories/tags for todos
+- [ ] Search and filter functionality
+- [ ] Email notifications
+- [ ] Todo sharing between users
+- [ ] Drag-and-drop reordering
+- [ ] Export to PDF/CSV
+- [ ] Two-factor authentication
+- [ ] Password reset flow
+- [ ] Real-time collaboration (Socket.io)
+- [ ] Mobile app (React Native)
+
+---
+
+## 📝 License
+
+This project is open source and available under the [MIT License](LICENSE).
+
+---
+
+## 👤 Author
+
+**Ayoub**
+
+- Portfolio: [your-portfolio.com](#)
+- LinkedIn: [linkedin.com/in/yourprofile](#)
+- GitHub: [@yourusername](https://github.com/yourusername)
+
+---
+
+## 🙏 Acknowledgments
+
+- Design inspiration from modern task management applications
+- Font families: Fraunces (Google Fonts), Inter (Google Fonts)
+- Icons: Custom SVG icons
+
+---
+
+<div align="center">
+
+### ⭐ Star this repository if you found it helpful!
+
+**Built with ❤️ by Ayoub**
+
+</div>
