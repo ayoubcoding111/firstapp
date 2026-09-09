@@ -4,6 +4,28 @@ if (currentAdmin) {
     document.getElementById('userName').textContent = currentAdmin.name;
 }
 
+// Dark mode functionality
+const themeToggle = document.getElementById('themeToggle');
+const prefersDarkScheme = window.matchMedia('(prefers-color-scheme: dark)');
+
+// Check for saved theme preference or use system preference
+const currentTheme = localStorage.getItem('theme') || (prefersDarkScheme.matches ? 'dark' : 'light');
+if (currentTheme === 'dark') {
+    document.documentElement.classList.add('dark-mode');
+}
+
+// Toggle theme when button is clicked
+themeToggle.addEventListener('click', () => {
+    document.documentElement.classList.toggle('dark-mode');
+
+    // Save preference
+    if (document.documentElement.classList.contains('dark-mode')) {
+        localStorage.setItem('theme', 'dark');
+    } else {
+        localStorage.setItem('theme', 'light');
+    }
+});
+
 const userListEl = document.getElementById('userList');
 const adminMainEl = document.getElementById('adminMain');
 let selectedUserId = null;

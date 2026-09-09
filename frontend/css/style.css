@@ -2,11 +2,13 @@
    Todo App - Shared Styles
    Palette: paper background, navy ink, amber
    for primary actions, sage for done items.
+   With dark mode support and smooth animations.
    ============================================ */
 
 @import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&display=swap');
 
 :root {
+    /* Light mode */
     --paper: #FAF8F3;
     --panel: #FFFFFF;
     --ink: #1C2541;
@@ -19,6 +21,89 @@
     --red: #B0503F;
     --red-bg: #F6E6E2;
     --radius: 6px;
+    --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
+    --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.08);
+    --shadow-lg: 0 10px 28px rgba(0, 0, 0, 0.12);
+}
+
+html.dark-mode {
+    --paper: #0F1419;
+    --panel: #1A1F2E;
+    --ink: #F5F5F7;
+    --ink-soft: #A8ABBE;
+    --line: #2D3142;
+    --amber: #E8A035;
+    --amber-dark: #F0B156;
+    --sage: #7CB342;
+    --sage-bg: #1B3A2D;
+    --red: #E57373;
+    --red-bg: #3D1F1F;
+    --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.3);
+    --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.4);
+    --shadow-lg: 0 10px 28px rgba(0, 0, 0, 0.5);
+}
+
+/* Animations */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(8px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes slideInLeft {
+    from {
+        opacity: 0;
+        transform: translateX(-12px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes slideInRight {
+    from {
+        opacity: 0;
+        transform: translateX(12px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes pulse {
+    0%, 100% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0.6;
+    }
+}
+
+@keyframes scaleIn {
+    from {
+        opacity: 0;
+        transform: scale(0.96);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+@keyframes bounce {
+    0%, 100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-4px);
+    }
 }
 
 * {
@@ -32,6 +117,7 @@ body {
     font-family: 'Inter', sans-serif;
     font-size: 15px;
     line-height: 1.5;
+    transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 h1, h2, h3 {
@@ -57,6 +143,9 @@ button {
     padding: 18px 32px;
     border-bottom: 1px solid var(--line);
     background: var(--panel);
+    box-shadow: var(--shadow-sm);
+    transition: background-color 0.3s ease, border-color 0.3s ease;
+    animation: fadeIn 0.4s ease-out;
 }
 
 .topbar .brand {
@@ -64,10 +153,12 @@ button {
     font-size: 22px;
     font-weight: 700;
     letter-spacing: -0.02em;
+    transition: color 0.3s ease;
 }
 
 .topbar .brand span {
     color: var(--amber);
+    transition: color 0.3s ease;
 }
 
 .topbar .who {
@@ -85,10 +176,17 @@ button {
     font-weight: 600;
     background: var(--sage-bg);
     color: var(--sage);
+    transition: background-color 0.3s ease, color 0.3s ease;
+    animation: scaleIn 0.3s ease-out;
 }
 
 .badge.admin-badge {
     background: #EFE3D0;
+    color: var(--amber-dark);
+}
+
+html.dark-mode .badge.admin-badge {
+    background: #3D2D1F;
     color: var(--amber-dark);
 }
 
@@ -99,12 +197,47 @@ button {
     padding: 7px 14px;
     border-radius: var(--radius);
     font-size: 13px;
-    transition: border-color .15s ease, color .15s ease;
+    transition: all 0.2s ease;
+    cursor: pointer;
 }
 
 .btn-logout:hover {
     border-color: var(--red);
     color: var(--red);
+    background: var(--red-bg);
+    transform: translateY(-1px);
+}
+
+.btn-logout:active {
+    transform: translateY(0);
+}
+
+/* Dark mode toggle button */
+.theme-toggle {
+    background: transparent;
+    border: 1px solid var(--line);
+    color: var(--ink-soft);
+    padding: 6px 10px;
+    border-radius: var(--radius);
+    font-size: 14px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+}
+
+.theme-toggle:hover {
+    border-color: var(--amber);
+    color: var(--amber);
+    background: var(--amber);
+    color: white;
+}
+
+.theme-toggle:active {
+    transform: scale(0.95);
 }
 
 /* ---------- Auth page ---------- */
@@ -114,6 +247,7 @@ button {
     align-items: center;
     justify-content: center;
     padding: 24px;
+    animation: fadeIn 0.5s ease-out;
 }
 
 .auth-card {
@@ -123,23 +257,37 @@ button {
     border: 1px solid var(--line);
     border-radius: var(--radius);
     padding: 36px 32px;
+    box-shadow: var(--shadow-md);
+    transition: background-color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+    animation: scaleIn 0.4s ease-out;
+    animation-delay: 0.1s;
+    animation-fill-mode: both;
 }
 
 .auth-card h1 {
     font-size: 26px;
     margin-bottom: 4px;
+    animation: slideInLeft 0.3s ease-out;
+    animation-delay: 0.15s;
+    animation-fill-mode: both;
 }
 
 .auth-card .sub {
     color: var(--ink-soft);
     font-size: 14px;
     margin-bottom: 26px;
+    animation: slideInLeft 0.3s ease-out;
+    animation-delay: 0.2s;
+    animation-fill-mode: both;
 }
 
 .tabs {
     display: flex;
     border-bottom: 1px solid var(--line);
     margin-bottom: 22px;
+    animation: slideInLeft 0.3s ease-out;
+    animation-delay: 0.25s;
+    animation-fill-mode: both;
 }
 
 .tab-btn {
@@ -152,6 +300,8 @@ button {
     color: var(--ink-soft);
     border-bottom: 2px solid transparent;
     margin-bottom: -1px;
+    cursor: pointer;
+    transition: color 0.2s ease, border-color 0.2s ease;
 }
 
 .tab-btn.active {
@@ -161,6 +311,7 @@ button {
 
 .form-panel {
     display: none;
+    animation: fadeIn 0.3s ease-out;
 }
 
 .form-panel.active {
@@ -169,7 +320,13 @@ button {
 
 .field {
     margin-bottom: 16px;
+    animation: slideInRight 0.3s ease-out;
+    animation-fill-mode: both;
 }
+
+.field:nth-child(1) { animation-delay: 0.3s; }
+.field:nth-child(2) { animation-delay: 0.35s; }
+.field:nth-child(3) { animation-delay: 0.4s; }
 
 .field label {
     display: block;
@@ -188,11 +345,13 @@ button {
     font-family: inherit;
     background: var(--paper);
     color: var(--ink);
+    transition: border-color 0.2s ease, background-color 0.3s ease;
 }
 
 .field input:focus {
     outline: none;
     border-color: var(--amber);
+    transform: scale(1.01);
 }
 
 .btn-primary {
@@ -204,11 +363,21 @@ button {
     border-radius: var(--radius);
     font-size: 14px;
     font-weight: 600;
-    transition: background .15s ease;
+    transition: all 0.2s ease;
+    cursor: pointer;
+    animation: slideInRight 0.3s ease-out;
+    animation-delay: 0.45s;
+    animation-fill-mode: both;
 }
 
 .btn-primary:hover {
-    background: var(--amber-dark);
+    background: var(--amber);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+}
+
+.btn-primary:active {
+    transform: translateY(0);
 }
 
 .form-msg {
@@ -337,11 +506,25 @@ button {
     border: 1px solid var(--line);
     border-radius: var(--radius);
     padding: 14px 16px;
+    transition: all 0.3s ease;
+    animation: slideInRight 0.3s ease-out;
+}
+
+.todo-item:hover {
+    transform: translateX(4px);
+    box-shadow: var(--shadow-sm);
 }
 
 .todo-item.completed {
     background: var(--sage-bg);
-    border-color: #D5E3D3;
+    border-color: transparent;
+    opacity: 0.8;
+}
+
+.todo-item.completed:hover {
+    opacity: 1;
+    transform: translateX(4px);
+    box-shadow: var(--shadow-sm);
 }
 
 .todo-check {
@@ -351,6 +534,15 @@ button {
     accent-color: var(--sage);
     cursor: pointer;
     flex-shrink: 0;
+    transition: all 0.2s ease;
+}
+
+.todo-check:hover {
+    transform: scale(1.1);
+}
+
+.todo-check:checked {
+    animation: bounce 0.4s ease-out;
 }
 
 .todo-body {
@@ -393,11 +585,20 @@ button {
     padding: 6px 10px;
     font-size: 12px;
     color: var(--ink-soft);
+    transition: all 0.2s ease;
+    cursor: pointer;
 }
 
 .icon-btn:hover {
     border-color: var(--red);
     color: var(--red);
+    background: var(--red-bg);
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-sm);
+}
+
+.icon-btn:active {
+    transform: translateY(0);
 }
 
 .empty-state {
@@ -407,6 +608,7 @@ button {
     border: 1px dashed var(--line);
     border-radius: var(--radius);
     font-size: 14px;
+    animation: pulse 3s ease-in-out infinite;
 }
 
 /* ---------- Admin dashboard ---------- */
@@ -417,6 +619,8 @@ button {
     padding-right: 24px;
     padding-top: 32px;
     padding-left: 32px;
+    animation: slideInLeft 0.4s ease-out;
+    transition: border-color 0.3s ease;
 }
 
 .sidebar h3 {
@@ -440,12 +644,24 @@ button {
     border-radius: var(--radius);
     padding: 12px;
     background: var(--panel);
+    transition: all 0.3s ease;
+    animation: scaleIn 0.3s ease-out;
+    animation-fill-mode: both;
+}
+
+.stat-box:nth-child(1) { animation-delay: 0.05s; }
+.stat-box:nth-child(2) { animation-delay: 0.1s; }
+
+.stat-box:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
 }
 
 .stat-box .num {
     font-family: 'Fraunces', serif;
     font-size: 22px;
     font-weight: 700;
+    transition: color 0.3s ease;
 }
 
 .stat-box .label {
@@ -471,16 +687,27 @@ button {
     text-align: left;
     width: 100%;
     font-family: inherit;
+    transition: all 0.2s ease;
+    cursor: pointer;
+    animation: slideInRight 0.3s ease-out;
+    animation-fill-mode: both;
 }
+
+.user-row:nth-child(1) { animation-delay: 0.15s; }
+.user-row:nth-child(2) { animation-delay: 0.2s; }
+.user-row:nth-child(3) { animation-delay: 0.25s; }
+.user-row:nth-child(4) { animation-delay: 0.3s; }
 
 .user-row:hover {
     background: var(--panel);
     border-color: var(--line);
+    transform: translateX(4px);
 }
 
 .user-row.active {
     background: var(--panel);
     border-color: var(--amber);
+    box-shadow: var(--shadow-sm);
 }
 
 .user-row .name {
@@ -505,6 +732,8 @@ button {
 .admin-main {
     flex: 1;
     padding: 32px;
+    animation: fadeIn 0.4s ease-out;
+    transition: background-color 0.3s ease;
 }
 
 .no-selection {
@@ -514,6 +743,7 @@ button {
     border: 1px dashed var(--line);
     border-radius: var(--radius);
     font-size: 14px;
+    animation: pulse 3s ease-in-out infinite;
 }
 
 .selected-user-head {
